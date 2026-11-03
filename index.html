@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2b">
+  <meta name="description" content="MCPS – zasady uprawnień menedżera w wyzwaniu Football Manager.">
+  <title>MCPS — Manager Career Progression System</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f6f5;
+      --surface: #ffffff;
+      --surface-2: #f7faf8;
+      --ink: #16231f;
+      --muted: #66766f;
+      --line: #e1e9e4;
+      --navy: #101a2b;
+      --navy-2: #19273b;
+      --green: #a8f0c5;
+      --green-strong: #167347;
+      --green-soft: #e6f7ed;
+      --blue-soft: #eaf1fb;
+      --blue-ink: #315c91;
+      --amber-soft: #fff4df;
+      --amber-ink: #8a5b12;
+      --shadow: 0 16px 42px rgba(22, 43, 33, .07);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    a { color: inherit; }
+    .topbar {
+      background: var(--navy);
+      color: #eaf3ef;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .topbar-inner, main, .footer-inner { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+    .topbar-inner { min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 800; letter-spacing: .04em; }
+    .brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; color: var(--navy); background: var(--green); font-size: 15px; font-weight: 900; }
+    .brand small { display: block; color: #9eafa8; font-size: 10px; font-weight: 650; letter-spacing: .16em; }
+    .top-link { color: #c5d2cc; text-decoration: none; font-size: 13px; }
+    .top-link:hover { color: white; }
+    main { padding: 42px 0 76px; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(28px, 5vw, 56px);
+      color: white;
+      background: linear-gradient(120deg, #101a2b 0%, #1b3042 100%);
+      border-radius: 25px;
+      box-shadow: var(--shadow);
+    }
+    .hero:after {
+      content: ""; position: absolute; width: 430px; height: 430px; right: -145px; top: -190px;
+      border: 1px solid rgba(168,240,197,.22); border-radius: 50%;
+      box-shadow: 0 0 0 42px rgba(168,240,197,.035), 0 0 0 88px rgba(168,240,197,.025);
+      pointer-events: none;
+    }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+    .eyebrow:before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(168,240,197,.13); }
+    h1 { max-width: 740px; margin: 16px 0 12px; font-size: clamp(32px, 5vw, 54px); line-height: 1.06; letter-spacing: -.045em; }
+    .hero p { max-width: 650px; margin: 0; color: #c3d0ca; font-size: 16px; }
+    .hero-bottom { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 27px; }
+    .hero-tag { padding: 7px 11px; border: 1px solid rgba(255,255,255,.15); border-radius: 999px; color: #d5e2dc; font-size: 11px; font-weight: 650; }
+    .hero-tag.strong { color: #102419; background: var(--green); border-color: var(--green); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 18px 0 34px; }
+    .stat { padding: 17px 20px; border: 1px solid var(--line); border-radius: 15px; background: var(--surface); }
+    .stat strong { display: block; color: var(--navy); font-size: 25px; line-height: 1.1; letter-spacing: -.04em; }
+    .stat span { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 20px; }
+    .search-wrap { position: relative; flex: 1 1 280px; max-width: 430px; }
+    .search-wrap:before { content: "⌕"; position: absolute; left: 14px; top: 7px; color: #78877f; font-size: 24px; }
+    input[type="search"] { width: 100%; padding: 12px 14px 12px 42px; border: 1px solid var(--line); outline: none; border-radius: 12px; background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; }
+    input[type="search"]:focus { border-color: #75bf96; box-shadow: 0 0 0 3px rgba(73,164,111,.12); }
+    .filters { display: flex; flex-wrap: wrap; gap: 7px; }
+    .filter { padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); cursor: pointer; font: inherit; font-size: 11px; font-weight: 750; transition: .18s ease; }
+    .filter:hover { border-color: #9abdaa; color: var(--ink); }
+    .filter[aria-pressed="true"] { border-color: var(--navy); background: var(--navy); color: white; }
+    .section { margin-top: 30px; scroll-margin-top: 20px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 0 0 12px; }
+    .section-kicker { margin: 0 0 4px; color: var(--green-strong); font-size: 10px; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
+    h2 { margin: 0; color: var(--navy); font-size: clamp(21px, 3vw, 26px); line-height: 1.15; letter-spacing: -.035em; }
+    .section-count { color: #87958e; font-size: 11px; white-space: nowrap; }
+    .table-shell { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: 0 5px 20px rgba(22,43,33,.025); }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 680px; }
+    thead { background: #f7faf8; }
+    th { padding: 13px 18px; color: #75847c; text-align: left; font-size: 10px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    td { padding: 15px 18px; border-top: 1px solid #edf1ee; vertical-align: middle; font-size: 13px; }
+    tbody tr { transition: background .15s ease; }
+    tbody tr:hover { background: #fbfdfb; }
+    td:first-child { width: 48%; color: #1b2b25; font-weight: 700; }
+    .license { display: inline-flex; align-items: center; padding: 5px 9px; border-radius: 7px; background: var(--blue-soft); color: var(--blue-ink); font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .license.any { background: #eff2f0; color: #58665f; }
+    .tenure { display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 7px; background: var(--amber-soft); color: var(--amber-ink); font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .tenure.none { background: var(--green-soft); color: var(--green-strong); }
+    .logic { color: #68776f; font-size: 11px; font-weight: 750; white-space: nowrap; }
+    .logic.or { color: #925e15; }
+    .empty { display: none; padding: 24px; color: var(--muted); text-align: center; font-size: 13px; }
+    .rules-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 15px; margin-top: 30px; }
+    .info-card { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .info-card h3 { margin: 0 0 13px; color: var(--navy); font-size: 15px; letter-spacing: -.02em; }
+    .rule-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .rule-list li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; color: #52635a; font-size: 12px; }
+    .rule-num { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 8px; background: var(--green-soft); color: var(--green-strong); font-size: 11px; font-weight: 900; }
+    .legend { display: grid; gap: 11px; }
+    .legend-row { display: flex; align-items: center; gap: 10px; color: #58675f; font-size: 12px; }
+    .legend-row .license, .legend-row .tenure { flex: 0 0 auto; }
+    .note { margin-top: 15px; padding: 14px 16px; border-left: 3px solid #80c99d; border-radius: 0 10px 10px 0; background: #eef8f1; color: #456354; font-size: 12px; }
+    footer { padding: 22px 0; border-top: 1px solid var(--line); color: #7a8981; font-size: 11px; }
+    .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+    .footer-brand { color: var(--navy); font-weight: 850; letter-spacing: .08em; }
+    @media (max-width: 720px) {
+      .topbar-inner, main, .footer-inner { width: min(100% - 28px, 1160px); }
+      .top-link { display: none; }
+      main { padding-top: 22px; }
+      .hero { border-radius: 19px; }
+      .stats { gap: 8px; margin-bottom: 26px; }
+      .stat { padding: 13px 12px; }
+      .stat strong { font-size: 21px; }
+      .stat span { font-size: 10px; }
+      .rules-grid { grid-template-columns: 1fr; }
+      .section-head { align-items: center; }
+      td, th { padding-left: 13px; padding-right: 13px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *:before, *:after { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="MCPS — początek strony">
+        <span class="brand-mark">M</span>
+        <span>MCPS <small>MANAGER CAREER PROGRESSION SYSTEM</small></span>
+      </a>
+      <a class="top-link" href="#rules">Zasady interpretacji ↓</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Football Manager challenge</div>
+      <h1 id="page-title">Rozwijaj karierę.<br>Zdobywaj uprawnienia.</h1>
+      <p>System progresji menedżera określający, kiedy możesz przejmować kolejne obowiązki w klubie. Licencje dają kompetencje, a staż buduje zaufanie.</p>
+      <div class="hero-bottom">
+        <span class="hero-tag strong">MCPS</span>
+        <span class="hero-tag">Licencje trenerskie</span>
+        <span class="hero-tag">Staż w klubie</span>
+        <span class="hero-tag">Zasady wyzwania</span>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Podsumowanie zasad">
+      <div class="stat"><strong>3</strong><span>główne obszary zarządzania</span></div>
+      <div class="stat"><strong>16</strong><span>uprawnień i obowiązków</span></div>
+      <div class="stat"><strong>2</strong><span>ścieżki odblokowania: licencja i staż</span></div>
+    </section>
+
+    <div class="toolbar" aria-label="Filtrowanie tabel">
+      <div class="search-wrap">
+        <input id="search" type="search" placeholder="Szukaj uprawnienia, licencji lub stażu…" aria-label="Szukaj w tabelach">
+      </div>
+      <div class="filters" role="group" aria-label="Filtruj obszar">
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">Wszystko</button>
+        <button class="filter" type="button" data-filter="training" aria-pressed="false">Trening</button>
+        <button class="filter" type="button" data-filter="transfers" aria-pressed="false">Transfery i scouting</button>
+        <button class="filter" type="button" data-filter="staff" aria-pressed="false">Sztab</button>
+      </div>
+    </div>
+
+    <section class="section" id="training" data-section="training">
+      <div class="section-head">
+        <div><p class="section-kicker">01 / Kompetencje boiskowe</p><h2>Taktyka i trening</h2></div>
+        <span class="section-count">4 uprawnienia</span>
+      </div>
+      <div class="table-shell">
+        <div class="table-scroll"><table>
+          <thead><tr><th>Obowiązek</th><th>Wymagana licencja</th><th>Minimalny staż</th><th>Warunek</th></tr></thead>
+          <tbody>
+            <tr data-search="ustawianie taktyki wariantów formacji instrukcje"><td>Ustawianie taktyki i wariantów</td><td><span class="license any">Dowolna</span></td><td><span class="tenure none">Bez ograniczeń</span></td><td class="logic">—</td></tr>
+            <tr data-search="trening indywidualny zawodnik rozwoj"><td>Trening indywidualny</td><td><span class="license">National C lub wyższa</span></td><td><span class="tenure none">Bez ograniczeń</span></td><td class="logic">Licencja</td></tr>
+            <tr data-search="trening stalych fragmentow gry rozegrania rzuty rozne wolne"><td>Trening stałych fragmentów gry</td><td><span class="license">National C lub wyższa</span></td><td><span class="tenure none">Bez ograniczeń</span></td><td class="logic">Licencja</td></tr>
+            <tr data-search="trening ogolny mentoring sesje zespol"><td>Trening ogólny i mentoring</td><td><span class="license">National C lub wyższa</span></td><td><span class="tenure none">Bez ograniczeń</span></td><td class="logic">Licencja</td></tr>
+          </tbody>
+        </table></div>
+        <div class="empty">Brak wyników w tej sekcji.</div>
+      </div>
+    </section>
+
+    <section class="section" id="transfers" data-section="transfers">
+      <div class="section-head">
+        <div><p class="section-kicker">02 / Budowa kadry</p><h2>Transfery, scouting i sparingi</h2></div>
+        <span class="section-count">5 uprawnień</span>
+      </div>
+      <div class="table-shell">
+        <div class="table-scroll"><table>
+          <thead><tr><th>Obowiązek</th><th>Wymagana licencja</th><th>Minimalny staż</th><th>Warunek</th></tr></thead>
+          <tbody>
+            <tr data-search="sugerowanie celu transferowego potrzeby pozycje profile pilkarz"><td>Sugerowanie celu transferowego</td><td><span class="license any">Dowolna</span></td><td><span class="tenure">1 sezon</span></td><td class="logic">Staż</td></tr>
+            <tr data-search="sugerowanie sprzedazy zawodnikow pilkarzy odejscie"><td>Sugerowanie sprzedaży zawodników</td><td><span class="license any">Dowolna</span></td><td><span class="tenure">1 sezon</span></td><td class="logic">Staż</td></tr>
+            <tr data-search="zarzadzanie zadaniami scoutingu wysylanie skauta obserwacja pilkarza konkretnego zawodnika"><td>Zarządzanie zadaniami scoutingu i obserwacją zawodników</td><td><span class="license">Continental B lub wyższa</span></td><td><span class="tenure">1 sezon</span></td><td class="logic or">LUB</td></tr>
+            <tr data-search="zakup sprzedaz pilkarza zawodnika negocjacje finalizacja transferu"><td>Zakup i sprzedaż zawodników (negocjacje i finalizacja)</td><td><span class="license">Continental B lub wyższa</span></td><td><span class="tenure">2 sezony</span></td><td class="logic or">LUB</td></tr>
+            <tr data-search="organizacja organizowanie sparingow meczow towarzyskich"><td>Organizacja sparingów</td><td><span class="license">Continental C lub wyższa</span></td><td><span class="tenure">1 sezon</span></td><td class="logic or">LUB</td></tr>
+          </tbody>
+        </table></div>
+        <div class="empty">Brak wyników w tej sekcji.</div>
+      </div>
+    </section>
+
+    <section class="section" id="staff" data-section="staff">
+      <div class="section-head">
+        <div><p class="section-kicker">03 / Organizacja klubu</p><h2>Zarządzanie sztabem</h2></div>
+        <span class="section-count">7 uprawnień</span>
+      </div>
+      <div class="table-shell">
+        <div class="table-scroll"><table>
+          <thead><tr><th>Stanowisko / obowiązek</th><th>Wymagana licencja</th><th>Minimalny staż</th><th>Warunek</th></tr></thead>
+          <tbody>
+            <tr data-search="zatrudnianie zwalnianie dyrektora sportowego"><td>Zatrudnianie / zwalnianie dyrektora sportowego</td><td><span class="license any">Dowolna</span></td><td><span class="tenure">1 sezon</span></td><td class="logic">Staż</td></tr>
+            <tr data-search="zatrudnianie zwalnianie dyrektora technicznego"><td>Zatrudnianie / zwalnianie dyrektora technicznego</td><td><span class="license any">Dowolna</span></td><td><span class="tenure">2 sezony</span></td><td class="logic">Staż</td></tr>
+            <tr data-search="zatrudnianie zwalnianie asystenta trenera"><td>Zatrudnianie / zwalnianie asystenta</td><td><span class="license">National C lub wyższa</span></td><td><span class="tenure">1 sezon</span></td><td class="logic or">LUB</td></tr>
+            <tr data-search="zatrudnianie zwalnianie pracownikow sztabu trener fizjoterapeuta"><td>Zatrudnianie / zwalnianie pozostałych pracowników sztabu</td><td><span class="license">Continental C lub wyższa</span></td><td><span class="tenure">2 sezony</span></td><td class="logic or">LUB</td></tr>
+            <tr data-search="zatrudnianie zwalnianie glownego scouta skauta"><td>Zatrudnianie / zwalnianie głównego scouta</td><td><span class="license any">Dowolna</span></td><td><span class="tenure none">Bez ograniczeń</span></td><td class="logic">—</td></tr>
+            <tr data-search="zatrudnianie zwalnianie sztabu drugiego zespolu rezerw"><td>Zatrudnianie / zwalnianie sztabu drugiego zespołu</td><td><span class="license">Continental C lub wyższa</span></td><td><span class="tenure none">Bez ograniczeń</span></td><td class="logic">Licencja</td></tr>
+            <tr data-search="zatrudnianie zwalnianie sztabu druzyn juniorskich juniorzy akademia"><td>Zatrudnianie / zwalnianie sztabu drużyn juniorskich</td><td><span class="license">Continental C lub wyższa</span></td><td><span class="tenure none">Bez ograniczeń</span></td><td class="logic">Licencja</td></tr>
+          </tbody>
+        </table></div>
+        <div class="empty">Brak wyników w tej sekcji.</div>
+      </div>
+      <div class="note">Zasada dotycząca pozostałych pracowników sztabu nie obejmuje stanowisk wymienionych osobno w tabeli (np. asystenta, głównego scouta i dyrektorów).</div>
+    </section>
+
+    <section class="rules-grid" id="rules">
+      <article class="info-card">
+        <h3>Jak odczytywać warunki?</h3>
+        <ol class="rule-list">
+          <li><span class="rule-num">1</span><span><strong>Warunki łączne</strong> — jeśli w kolumnie „Warunek” widnieje „Licencja”, wymagany jest wskazany poziom licencji. Staż jest osobnym warunkiem zgodnie z tabelą.</span></li>
+          <li><span class="rule-num">2</span><span><strong>Warunek „LUB”</strong> — wystarczy wskazana licencja albo wymagany staż w aktualnym klubie. Nie trzeba spełniać obu warunków.</span></li>
+          <li><span class="rule-num">3</span><span><strong>Dowolna</strong> — brak wymagań licencyjnych. Nadal obowiązuje staż, jeśli został podany.</span></li>
+          <li><span class="rule-num">4</span><span><strong>Bez ograniczeń</strong> — uprawnienie jest dostępne od pierwszego dnia pracy w klubie.</span></li>
+        </ol>
+      </article>
+      <article class="info-card">
+        <h3>Legenda licencji i stażu</h3>
+        <div class="legend">
+          <div class="legend-row"><span class="license">National C lub wyższa</span><span>Poziom krajowy C albo wyższy.</span></div>
+          <div class="legend-row"><span class="license">Continental C lub wyższa</span><span>Poziom kontynentalny C albo wyższy.</span></div>
+          <div class="legend-row"><span class="license">Continental B lub wyższa</span><span>Poziom kontynentalny B albo wyższy.</span></div>
+          <div class="legend-row"><span class="tenure">1 sezon</span><span>Jeden pełny sezon w aktualnym klubie.</span></div>
+          <div class="legend-row"><span class="tenure">2 sezony</span><span>Dwa pełne sezony w aktualnym klubie.</span></div>
+          <div class="legend-row"><span class="tenure none">Bez ograniczeń</span><span>Staż nie ma znaczenia.</span></div>
+        </div>
+      </article>
+    </section>
+    <div class="note" style="margin-top:16px">Staż liczy się od dnia zatrudnienia w aktualnym klubie. Sezon, w którym menedżer dołączył do klubu w trakcie rozgrywek, nie jest pełnym sezonem. Po zmianie klubu staż naliczany jest od początku, natomiast zdobyte licencje pozostają.</div>
+  </main>
+
+  <footer>
+    <div class="footer-inner"><span class="footer-brand">MCPS</span><span>Manager Career Progression System · Zasady wyzwania Football Manager</span></div>
+  </footer>
+
+  <script>
+    (() => {
+      const search = document.getElementById('search');
+      const filters = [...document.querySelectorAll('.filter')];
+      const sections = [...document.querySelectorAll('[data-section]')];
+      let activeFilter = 'all';
+      const normalize = value => value.toLocaleLowerCase('pl').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      function update() {
+        const query = normalize(search.value.trim());
+        sections.forEach(section => {
+          const matchesCategory = activeFilter === 'all' || section.dataset.section === activeFilter;
+          let visibleRows = 0;
+          section.querySelectorAll('tbody tr').forEach(row => {
+            const haystack = normalize(row.innerText + ' ' + (row.dataset.search || ''));
+            const visible = matchesCategory && (!query || haystack.includes(query));
+            row.hidden = !visible;
+            if (visible) visibleRows++;
+          });
+          section.hidden = !matchesCategory || visibleRows === 0;
+          section.querySelector('.empty').style.display = matchesCategory && query && visibleRows === 0 ? 'block' : 'none';
+          const count = section.querySelector('.section-count');
+          count.textContent = query && matchesCategory ? `${visibleRows} wyników` : `${section.querySelectorAll('tbody tr').length} uprawnień`;
+        });
+      }
+
+      search.addEventListener('input', update);
+      filters.forEach(button => button.addEventListener('click', () => {
+        activeFilter = button.dataset.filter;
+        filters.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+        update();
+      }));
+      update();
+    })();
+  </script>
+</body>
+</html>
