@@ -22,12 +22,12 @@ Kalkulator korzysta bezpośrednio ze wzoru opisanego w wyzwaniu Behold the HUJ:
 ```text
 max(
   Cn - Cpeak,
-  (0.8 × Cn + 0.2 × Ln)
-    - min(Jpeak, max(0.8 × Cp + 0.2 × Lp, M))
-) ≤ 0.5
+  (0.8 × Cn + 0.2 × (Ln / 2))
+    - min(Jpeak, max(0.8 × Cp + 0.2 × (Lp / 2), M))
+) ≤ 1.0
 ```
 
-Wszystkie wartości reputacji należy podawać w skali 0–5.
+Reputację klubu i menedżera wybiera się z sześciostopniowej skali FM27 (wartości całkowite): 0 — Nieznana, 1 — Lokalna, 2 — Regionalna, 3 — Krajowa, 4 — Kontynentalna, 5 — Globalna. Reputacja ligi jest oceną całkowitą od 0 do 10: 0 — Brak oceny, 1 — Kiepska, 2 — Poniżej przeciętnej, 3 — Przeciętna, 4 — Przyzwoita, 5 — Całkiem dobra, 6 — Dobra, 7 — Imponująca, 8 — Świetna, 9 — Wyśmienita, 10 — Elitarna. Aby wszystkie wartości JEB były na wspólnej skali 0–5, kalkulator normalizuje ocenę ligi przez podzielenie jej przez 2. JPS pozostaje wartością ułamkową.
 
 - `Cn` — reputacja nowego klubu.
 - `Ln` — reputacja ligi nowego klubu.
@@ -35,9 +35,9 @@ Wszystkie wartości reputacji należy podawać w skali 0–5.
 - `Lp` — reputacja ligi obecnego lub ostatniego klubu.
 - `M` — osobista reputacja menedżera przeliczona na skalę 0–5.
 - `Cpeak` — najwyższa reputacja klubu prowadzonego kiedykolwiek przez menedżera.
-- `Jpeak` — najwyższy historyczny Job Prestige Score. Kalkulator wylicza go jako `0.8 × reputacja klubu + 0.2 × reputacja ligi` na podstawie dwóch osobnych pól.
+- `Jpeak` — najwyższy historyczny Job Prestige Score. Kalkulator wylicza go jako `0.8 × reputacja klubu + 0.2 × (ocena ligi / 2)` na podstawie dwóch osobnych pól.
 
-Wynik JEB równy lub niższy niż `0.5` oznacza, że objęcie klubu jest dozwolone. Wynik powyżej `0.5` oznacza, że oferta nie spełnia warunku JEB. Nie ma scenariuszy ani dodatkowych wyjątków.
+Wynik JEB równy lub niższy niż `1.0` oznacza, że objęcie klubu jest dozwolone. Wynik powyżej `1.0` oznacza, że oferta nie spełnia warunku JEB. Próg JEB został dostosowany z `0.5` do `1.0` dla sześciostopniowej skali reputacji FM27. Nie ma scenariuszy ani dodatkowych wyjątków.
 
 Jeżeli menedżer nigdy wcześniej nie prowadził klubu, wpisz `0` w polach dotyczących obecnego / ostatniego klubu oraz osiągnięć historycznych.
 
