@@ -126,8 +126,8 @@
     .jeb-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
     .jeb-field { display: grid; gap: 5px; }
     .jeb-field label { color: #53645b; font-size: 11px; font-weight: 750; }
-    .jeb-field input { width: 100%; min-width: 0; padding: 10px 11px; border: 1px solid #d8e2dc; border-radius: 9px; outline: none; background: #fff; color: var(--ink); font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; }
-    .jeb-field input:focus { border-color: #75bf96; box-shadow: 0 0 0 3px rgba(73,164,111,.12); }
+    .jeb-field input, .jeb-field select { width: 100%; min-width: 0; padding: 10px 11px; border: 1px solid #d8e2dc; border-radius: 9px; outline: none; background: #fff; color: var(--ink); font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; }
+    .jeb-field input:focus, .jeb-field select:focus { border-color: #75bf96; box-shadow: 0 0 0 3px rgba(73,164,111,.12); }
     .jeb-field small { color: #849189; font-size: 10px; line-height: 1.35; }
     .jeb-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 17px; }
     .primary-btn, .secondary-btn { padding: 11px 16px; border: 1px solid var(--navy); border-radius: 10px; cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; }
@@ -210,17 +210,34 @@
     <section class="calculator" id="jeb" aria-labelledby="jeb-title">
       <div class="section-head">
         <div><p class="section-kicker">04 / Kolejny krok w karierze</p><h2 id="jeb-title">Kalkulator Job Eligibility Benchmark</h2></div>
-        <span class="section-count">JEB · skala 0–5</span>
+        <span class="section-count">JEB · wspólna skala JPS 0–5</span>
       </div>
-      <p class="calculator-intro">Sprawdź, czy możesz objąć nowy klub. Kalkulator stosuje bezpośrednio wzór JEB z wyzwania HUJ — bez scenariuszy i dodatkowych wyjątków. Wszystkie wartości reputacji wpisuj w skali od 0 do 5 gwiazdek.</p>
+      <p class="calculator-intro">Sprawdź, czy możesz objąć nowy klub. Kalkulator stosuje wzór JEB z wyzwania HUJ bez scenariuszy i dodatkowych wyjątków. Reputację klubu i menedżera wybierz w skali 0–5, a reputację ligi w skali 0–10 — zgodnie z ocenami widocznymi w FM27.</p>
 
       <div class="jeb-grid">
         <section class="jeb-group" aria-labelledby="jeb-new-title">
           <h3 id="jeb-new-title">Nowy klub</h3>
           <p>Klub, do którego chcesz dołączyć.</p>
           <div class="jeb-fields">
-            <div class="jeb-field"><label for="cn">Reputacja nowego klubu (Cn)</label><input id="cn" type="number" min="0" max="5" step="0.01" placeholder="np. 3,50" inputmode="decimal" required><small>Reputacja klubu w skali 0–5.</small></div>
-            <div class="jeb-field"><label for="ln">Reputacja ligi (Ln)</label><input id="ln" type="number" min="0" max="5" step="0.01" placeholder="np. 4,00" inputmode="decimal" required><small>Reputacja ligi nowego klubu.</small></div>
+            <div class="jeb-field"><label for="cn">Reputacja nowego klubu (Cn)</label><select id="cn" required><option value="" selected disabled>Wybierz reputację</option>
+              <option value="0">0 — Nieznana</option>
+              <option value="1">1 — Lokalna</option>
+              <option value="2">2 — Regionalna</option>
+              <option value="3">3 — Krajowa</option>
+              <option value="4">4 — Kontynentalna</option>
+              <option value="5">5 — Globalna</option></select><small>Reputacja klubu w skali FM27: od Nieznanej (0) do Globalnej (5).</small></div>
+            <div class="jeb-field"><label for="ln">Ocena reputacji ligi (Ln)</label><select id="ln" required><option value="" selected disabled>Wybierz ocenę ligi</option>
+              <option value="0">0 — Brak oceny</option>
+              <option value="1">1 — Kiepska</option>
+              <option value="2">2 — Poniżej przeciętnej</option>
+              <option value="3">3 — Przeciętna</option>
+              <option value="4">4 — Przyzwoita</option>
+              <option value="5">5 — Całkiem dobra</option>
+              <option value="6">6 — Dobra</option>
+              <option value="7">7 — Imponująca</option>
+              <option value="8">8 — Świetna</option>
+              <option value="9">9 — Wyśmienita</option>
+              <option value="10">10 — Elitarna</option></select><small>Wybierz ocenę ligi nowego klubu w skali 0–10.</small></div>
           </div>
         </section>
 
@@ -228,16 +245,39 @@
           <h3 id="jeb-current-title">Obecny lub ostatni klub</h3>
           <p>Jeśli jesteś bezrobotny, podaj dane ostatniego klubu. Jeśli nigdy nie pracowałeś, wpisz 0 w obu polach.</p>
           <div class="jeb-fields">
-            <div class="jeb-field"><label for="cp">Reputacja klubu (Cp)</label><input id="cp" type="number" min="0" max="5" step="0.01" placeholder="np. 2,50" inputmode="decimal" required><small>Reputacja obecnego lub ostatniego klubu.</small></div>
-            <div class="jeb-field"><label for="lp">Reputacja ligi (Lp)</label><input id="lp" type="number" min="0" max="5" step="0.01" placeholder="np. 3,00" inputmode="decimal" required><small>Reputacja ligi obecnego lub ostatniego klubu.</small></div>
+            <div class="jeb-field"><label for="cp">Reputacja klubu (Cp)</label><select id="cp" required><option value="" selected disabled>Wybierz reputację</option>
+              <option value="0">0 — Nieznana</option>
+              <option value="1">1 — Lokalna</option>
+              <option value="2">2 — Regionalna</option>
+              <option value="3">3 — Krajowa</option>
+              <option value="4">4 — Kontynentalna</option>
+              <option value="5">5 — Globalna</option></select><small>Reputacja obecnego lub ostatniego klubu.</small></div>
+            <div class="jeb-field"><label for="lp">Ocena reputacji ligi (Lp)</label><select id="lp" required><option value="" selected disabled>Wybierz ocenę ligi</option>
+              <option value="0">0 — Brak oceny</option>
+              <option value="1">1 — Kiepska</option>
+              <option value="2">2 — Poniżej przeciętnej</option>
+              <option value="3">3 — Przeciętna</option>
+              <option value="4">4 — Przyzwoita</option>
+              <option value="5">5 — Całkiem dobra</option>
+              <option value="6">6 — Dobra</option>
+              <option value="7">7 — Imponująca</option>
+              <option value="8">8 — Świetna</option>
+              <option value="9">9 — Wyśmienita</option>
+              <option value="10">10 — Elitarna</option></select><small>Ocena ligi obecnego lub ostatniego klubu w skali 0–10.</small></div>
           </div>
         </section>
 
         <section class="jeb-group" aria-labelledby="jeb-manager-title">
           <h3 id="jeb-manager-title">Reputacja menedżera</h3>
-          <p>Twoja osobista reputacja menedżerska przeliczona na skalę 0–5 gwiazdek.</p>
+          <p>Twoja osobista reputacja menedżerska przeliczona na sześciostopniową skalę FM27.</p>
           <div class="jeb-fields">
-            <div class="jeb-field"><label for="manager">Reputacja menedżera (M)</label><input id="manager" type="number" min="0" max="5" step="0.01" placeholder="np. 2,75" inputmode="decimal" required><small>Wprowadź wartość już przeliczoną na skalę 0–5.</small></div>
+            <div class="jeb-field"><label for="manager">Reputacja menedżera (M)</label><select id="manager" required><option value="" selected disabled>Wybierz reputację</option>
+              <option value="0">0 — Nieznana</option>
+              <option value="1">1 — Lokalna</option>
+              <option value="2">2 — Regionalna</option>
+              <option value="3">3 — Krajowa</option>
+              <option value="4">4 — Kontynentalna</option>
+              <option value="5">5 — Globalna</option></select><small>Wybierz odpowiadający poziom reputacji menedżera.</small></div>
           </div>
         </section>
 
@@ -245,9 +285,32 @@
           <h3 id="jeb-history-title">Najwyższe osiągnięcia w karierze</h3>
           <p>Wartości historyczne — nie zmniejszaj ich po odejściu z klubu.</p>
           <div class="jeb-fields">
-            <div class="jeb-field"><label for="cpeak">Najwyższa reputacja klubu (Cpeak)</label><input id="cpeak" type="number" min="0" max="5" step="0.01" placeholder="np. 4,50" inputmode="decimal" required><small>Najwyższa reputacja dowolnego klubu, który prowadziłeś.</small></div>
-            <div class="jeb-field"><label for="jpeak-club">Reputacja klubu z najwyższym JPS</label><input id="jpeak-club" type="number" min="0" max="5" step="0.01" placeholder="np. 4,50" inputmode="decimal" required><small>Klub z najlepszego historycznego stanowiska pod względem JPS.</small></div>
-            <div class="jeb-field"><label for="jpeak-league">Reputacja ligi z najwyższym JPS</label><input id="jpeak-league" type="number" min="0" max="5" step="0.01" placeholder="np. 4,50" inputmode="decimal" required><small>Wartość ligi dla tego samego stanowiska.</small></div>
+            <div class="jeb-field"><label for="cpeak">Najwyższa reputacja klubu (Cpeak)</label><select id="cpeak" required><option value="" selected disabled>Wybierz reputację</option>
+              <option value="0">0 — Nieznana</option>
+              <option value="1">1 — Lokalna</option>
+              <option value="2">2 — Regionalna</option>
+              <option value="3">3 — Krajowa</option>
+              <option value="4">4 — Kontynentalna</option>
+              <option value="5">5 — Globalna</option></select><small>Najwyższy poziom reputacji dowolnego klubu, który prowadziłeś.</small></div>
+            <div class="jeb-field"><label for="jpeak-club">Reputacja klubu z najwyższym JPS</label><select id="jpeak-club" required><option value="" selected disabled>Wybierz reputację</option>
+              <option value="0">0 — Nieznana</option>
+              <option value="1">1 — Lokalna</option>
+              <option value="2">2 — Regionalna</option>
+              <option value="3">3 — Krajowa</option>
+              <option value="4">4 — Kontynentalna</option>
+              <option value="5">5 — Globalna</option></select><small>Klub z najlepszego historycznego stanowiska pod względem JPS.</small></div>
+            <div class="jeb-field"><label for="jpeak-league">Ocena reputacji ligi z najwyższym JPS</label><select id="jpeak-league" required><option value="" selected disabled>Wybierz ocenę ligi</option>
+              <option value="0">0 — Brak oceny</option>
+              <option value="1">1 — Kiepska</option>
+              <option value="2">2 — Poniżej przeciętnej</option>
+              <option value="3">3 — Przeciętna</option>
+              <option value="4">4 — Przyzwoita</option>
+              <option value="5">5 — Całkiem dobra</option>
+              <option value="6">6 — Dobra</option>
+              <option value="7">7 — Imponująca</option>
+              <option value="8">8 — Świetna</option>
+              <option value="9">9 — Wyśmienita</option>
+              <option value="10">10 — Elitarna</option></select><small>Ocena ligi (0–10) dla tego samego stanowiska.</small></div>
           </div>
         </section>
       </div>
@@ -260,7 +323,7 @@
 
       <section class="jeb-result" id="jeb-result" aria-live="polite" aria-label="Wynik kalkulacji JEB">
         <div class="result-top"><div class="result-status" id="result-status"></div><div class="result-score" id="result-score"></div></div>
-        <p class="result-caption">Wynik JEB — klub możesz objąć, gdy wynik jest mniejszy lub równy 0,50.</p>
+        <p class="result-caption">Wynik JEB — klub możesz objąć, gdy wynik jest mniejszy lub równy 1,00.</p>
         <div class="result-breakdown">
           <div class="result-metric"><span>JPS nowego klubu</span><strong id="result-new-jps">—</strong></div>
           <div class="result-metric"><span>JPS obecnego / ostatniego klubu</span><strong id="result-current-jps">—</strong></div>
@@ -269,9 +332,9 @@
           <div class="result-metric"><span>Ograniczenie prestiżu (JPS nowego − pułap)</span><strong id="result-prestige-gap">—</strong></div>
           <div class="result-metric"><span>Najwyższy historyczny JPS</span><strong id="result-jpeak">—</strong></div>
         </div>
-        <div class="formula"><strong>Wzór:</strong><br><code>max(Cn − Cpeak, (0,8 × Cn + 0,2 × Ln) − min(Jpeak, max(0,8 × Cp + 0,2 × Lp, M))) ≤ 0,5</code></div>
+        <div class="formula"><strong>Wzór:</strong><br><code>max(Cn − Cpeak, (0,8 × Cn + 0,2 × (Ln / 2)) − min(Jpeak, max(0,8 × Cp + 0,2 × (Lp / 2), M))) ≤ 1,0</code></div>
       </section>
-      <p class="jeb-footnote">JPS (Job Prestige Score) = 80% reputacji klubu + 20% reputacji ligi. Jpeak jest obliczany z dwóch pól dotyczących najlepszego historycznego stanowiska. Przy pierwszej pracy w karierze wpisz 0 dla obecnego / ostatniego klubu oraz obu wartości historycznych. Kalkulator sprawdza wyłącznie JEB — nie uwzględnia dodatkowych zasad wyzwania ani uprawnień MCPS.</p>
+      <p class="jeb-footnote">Reputacja klubu i menedżera: sześć poziomów FM27, od 0 — Nieznana do 5 — Globalna. Reputacja ligi: ocena od 0 — Brak oceny do 10 — Elitarna. Aby wszystkie wartości we wzorze były na wspólnej skali 0–5, kalkulator przelicza ocenę ligi przez podzielenie jej przez 2. JPS (Job Prestige Score) = 80% reputacji klubu + 20% znormalizowanej reputacji ligi (L / 2), czyli 0,8 × C + 0,1 × L. JPS może być ułamkowy. Jpeak jest obliczany z reputacji klubu i ligi dla najlepszego historycznego stanowiska. Przy pierwszej pracy w karierze wybierz 0 dla obecnego / ostatniego klubu oraz obu wartości historycznych. Próg dopuszczalnego wyniku JEB wynosi 1,0. Kalkulator sprawdza wyłącznie JEB — nie uwzględnia dodatkowych zasad wyzwania ani uprawnień MCPS.</p>
       <div class="sources"><a href="https://community.sports-interactive.com/forums/topic/612310-challenge-behold-the-huj-the-ultimate-football-manager-27-challenge/" target="_blank" rel="noopener noreferrer">Oryginalne zasady HUJ ↗</a><a href="https://vami.fm/jeb-calculator.html" target="_blank" rel="noopener noreferrer">Oryginalny kalkulator JEB ↗</a></div>
     </section>
 
@@ -416,21 +479,25 @@
           cn: 'Reputacja nowego klubu', ln: 'Reputacja ligi nowego klubu',
           cp: 'Reputacja obecnego / ostatniego klubu', lp: 'Reputacja ligi obecnego / ostatniego klubu',
           manager: 'Reputacja menedżera', cpeak: 'Najwyższa reputacja klubu w karierze',
-          'jpeak-club': 'Reputacja klubu z najwyższym JPS', 'jpeak-league': 'Reputacja ligi z najwyższym JPS'
+          'jpeak-club': 'Reputacja klubu z najwyższym JPS', 'jpeak-league': 'Ocena reputacji ligi z najwyższym JPS'
         };
         for (const id of jebIds) {
           const input = document.getElementById(id);
-          const raw = input.value.trim().replace(',', '.');
+          const raw = input.value.trim();
           const value = Number(raw);
-          if (raw === '' || !Number.isFinite(value)) {
+          if (raw === '' || !Number.isInteger(value)) {
             jebError.textContent = `Uzupełnij pole: ${labels[id]}.`;
             jebError.style.display = 'block';
             input.focus();
             jebResult.style.display = 'none';
             return;
           }
-          if (value < 0 || value > 5) {
-            jebError.textContent = `Wartość w polu „${labels[id]}” musi mieścić się w przedziale 0–5.`;
+          const isLeagueField = ['ln', 'lp', 'jpeak-league'].includes(id);
+          const maxValue = isLeagueField ? 10 : 5;
+          if (value < 0 || value > maxValue) {
+            jebError.textContent = isLeagueField
+              ? `Wartość w polu „${labels[id]}” musi być oceną ligi od 0 do 10.`
+              : `Wartość w polu „${labels[id]}” musi być jednym z sześciu poziomów od 0 do 5.`;
             jebError.style.display = 'block';
             input.focus();
             jebResult.style.display = 'none';
@@ -439,14 +506,15 @@
           values[id] = value;
         }
 
-        const newJps = 0.8 * values.cn + 0.2 * values.ln;
-        const currentJps = 0.8 * values.cp + 0.2 * values.lp;
-        const jpeak = 0.8 * values['jpeak-club'] + 0.2 * values['jpeak-league'];
+        const newJps = 0.8 * values.cn + 0.2 * (values.ln / 2);
+        const currentJps = 0.8 * values.cp + 0.2 * (values.lp / 2);
+        const jpeak = 0.8 * values['jpeak-club'] + 0.2 * (values['jpeak-league'] / 2);
         const prestigeCeiling = Math.min(jpeak, Math.max(currentJps, values.manager));
         const clubGap = values.cn - values.cpeak;
         const prestigeGap = newJps - prestigeCeiling;
         const jeb = Math.max(clubGap, prestigeGap);
-        const allowed = jeb <= 0.5;
+        const JEB_THRESHOLD = 1.0;
+        const allowed = jeb <= JEB_THRESHOLD;
 
         jebResult.classList.toggle('allowed', allowed);
         jebResult.classList.toggle('denied', !allowed);
